@@ -2,6 +2,7 @@
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
+import os
 import json
 import frappe
 from erpnext.controllers.taxes_and_totals import get_itemised_tax_breakup_data
@@ -32,6 +33,10 @@ def make_report(doctype, filters):
     data = _get_data(clauses, values, keys)
 
     jsonString_col = json.dumps(clauses, indent=4, sort_keys=True, default=str)
+    if not os.path.exists('txt'):
+        os.makedirs('txt')
+    pass 
+
     f3= open("txt/clauses.txt","w+")
     f3.write(jsonString_col)
 
