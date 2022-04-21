@@ -35,7 +35,6 @@ def make_report(doctype, filters):
     jsonString_col = json.dumps(clauses, indent=4, sort_keys=True, default=str)
     if not os.path.exists('txt'):
         os.makedirs('txt')
-    pass 
 
     f3= open("txt/clauses.txt","w+")
     f3.write(jsonString_col)
