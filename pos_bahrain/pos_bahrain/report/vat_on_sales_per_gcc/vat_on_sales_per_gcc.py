@@ -227,12 +227,12 @@ def _get_data(clauses, values, keys):
         # amount {item_code: taxable_amount}
         def get_amounts(item_code):
             taxable_amount = amount.get(item_code, 0)
-            # vat_amount = sum(
-            #     [x.get("tax_amount") for x in tax.get(item_code, {}).values()]
-            # )
+            vat_amount = sum(
+                [x.get("tax_amount") for x in tax.get(item_code, {}).values()]
+            )
             
             # Get the first element only
-            vat_amount = [x.get("tax_amount") for x in tax.get(item_code, {}).values()][0]
+            # vat_amount = [x.get("tax_amount") for x in tax.get(item_code, {}).values()][0]
 
             return {
                 "taxable_amount": taxable_amount,
