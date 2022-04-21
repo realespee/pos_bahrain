@@ -5,7 +5,6 @@
 frappe.query_reports["Branch Stock"] = {
 	"filters": [
 
-		
 		 {
       fieldname: 'item_groups',
       label: __('Item Group'),

@@ -53,6 +53,8 @@ def _get_columns(filters):
         ],
         [make_column(x, x, type="Float", width=90) for x in branches],
         [make_column("total_qty", "Total Qty", type="Float", width=90)],
+        [make_column("valuation_rate", "Valuation Rate", type="Currency", width=90)],
+        [make_column("total_valuation", "Total Valuation", type="Currency", width=90)]
     )
 
 

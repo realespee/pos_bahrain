@@ -33,8 +33,6 @@ def make_report(doctype, filters):
     data = _get_data(clauses, values, keys)
 
     jsonString_col = json.dumps(clauses, indent=4, sort_keys=True, default=str)
-    # if not os.path.exists('txt'):
-    #     os.makedirs('txt')
 
     f3= open("txt/clauses.txt","w+")
     f3.write(jsonString_col)
@@ -230,9 +228,6 @@ def _get_data(clauses, values, keys):
                 [x.get("tax_amount") for x in tax.get(item_code, {}).values()]
             )
             
-            # Get the first element only
-            # vat_amount = [x.get("tax_amount") for x in tax.get(item_code, {}).values()][0]
-
             return {
                 "taxable_amount": taxable_amount,
                 "vat_amount": vat_amount,
