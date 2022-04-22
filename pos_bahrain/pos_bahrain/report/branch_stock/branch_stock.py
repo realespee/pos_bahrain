@@ -80,6 +80,7 @@ def _get_filters(filters):
 
 
 def _get_data(clauses, values, keys):
+    branches = pluck("name", frappe.get_all("Branch", filters={"disabled": 0}))
     items = frappe.db.sql(
         """
             SELECT
@@ -88,6 +89,7 @@ def _get_data(clauses, values, keys):
                 i.item_code AS item_code,
                 i.item_name AS item_name,
                 i.valuation_rate AS valuation_rate,
+                i.valuation_rate* ({total_qty}) AS total_valuation,
                 b.warehouse,
                 ipsb.price_list_rate AS cost_price,
                 ipms.price_list_rate AS minimum_selling,
@@ -107,12 +109,12 @@ def _get_data(clauses, values, keys):
             standard_buying_sq=price_sq("Standard Buying"),
             minimum_selling_sq=price_sq("Minimum Selling"),
             standard_selling_sq=price_sq("Standard Selling"),
+            total_qty={_set_qty(branches)}
+
         ),
         values=values,
         as_dict=1,
     )
-
-    print('\n\n\\n', items[0]['valuation_rate'], '\n\n\n')
 
     bins = frappe.db.sql(
         """
@@ -128,8 +130,6 @@ def _get_data(clauses, values, keys):
         values={"items": list(pluck("item_code", items))},
         as_dict=1,
     )
-
-    print('\n\n\\n', bins, '\n\n\n')
 
     template = reduce(lambda a, x: merge(a, {x: None}), keys, {})
     make_row = compose(
