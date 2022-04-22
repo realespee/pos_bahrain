@@ -153,7 +153,7 @@ def _set_qty(bins):
                 item,
                 {x.get("branch"): x.get("qty") for x in branches},
                 {"total_qty": get_total(branches)},
-                {"total_valuation": 'valuation_rate'*'total_qty'},
+                {"total_valuation": lambda x,y : x*y for x in 'valuation_rate' for y in'total_qty'},
 
             )
             if branches
