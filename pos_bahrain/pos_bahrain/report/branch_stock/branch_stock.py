@@ -80,7 +80,6 @@ def _get_filters(filters):
 
 
 def _get_data(clauses, values, keys):
-    branches = pluck("name", frappe.get_all("Branch", filters={"disabled": 0}))
 
     bins2 = frappe.db.sql(
         """
@@ -90,7 +89,16 @@ def _get_data(clauses, values, keys):
                 b.projected_qty AS qty,
                 w.branch AS branch
             FROM `tabBin` AS b
-        """
+            LEFT JOIN `tabBranch` AS w ON w.warehouse = b.warehouse
+            WHERE b.item_code IN %(items)s
+            """,
+            values={"items": list(pluck("item_code", frappe.db.sql(
+                """
+                    SELECT i.item_code AS item_code
+                    FROM `tabItem` AS i
+                """
+            )))},
+            as_dict=1,
     )
 
     items = frappe.db.sql(
