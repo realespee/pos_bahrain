@@ -112,7 +112,7 @@ def _get_data(clauses, values, keys):
         as_dict=1,
     )
 
-    print('\n\n\\n', items.valuation_rate[0], '\n\n\n')
+    print('\n\n\\n', items['valuation_rate'], '\n\n\n')
 
     bins = frappe.db.sql(
         """
