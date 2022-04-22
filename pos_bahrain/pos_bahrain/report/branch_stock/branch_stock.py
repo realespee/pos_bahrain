@@ -88,7 +88,7 @@ def _get_data(clauses, values, keys):
                 i.item_code AS item_code,
                 i.item_name AS item_name,
                 i.valuation_rate AS valuation_rate,
-                i.total_valuation*total_qty AS total_valuation,
+                i.valuation_rate*total_qty AS total_valuation,
                 b.warehouse,
                 ipsb.price_list_rate AS cost_price,
                 ipms.price_list_rate AS minimum_selling,
