@@ -88,7 +88,6 @@ def _get_data(clauses, values, keys):
                 i.item_code AS item_code,
                 i.item_name AS item_name,
                 i.valuation_rate AS valuation_rate,
-                i.valuation_rate*i.total_qty AS total_valuation,
                 b.warehouse,
                 ipsb.price_list_rate AS cost_price,
                 ipms.price_list_rate AS minimum_selling,
@@ -112,6 +111,9 @@ def _get_data(clauses, values, keys):
         values=values,
         as_dict=1,
     )
+
+    print('\n\n\\n', items, '\n\n\n')
+
     bins = frappe.db.sql(
         """
             SELECT
@@ -127,7 +129,7 @@ def _get_data(clauses, values, keys):
         as_dict=1,
     )
 
-
+    print('\n\n\\n', items, '\n\n\n')
 
     template = reduce(lambda a, x: merge(a, {x: None}), keys, {})
     make_row = compose(
@@ -151,6 +153,8 @@ def _set_qty(bins):
                 item,
                 {x.get("branch"): x.get("qty") for x in branches},
                 {"total_qty": get_total(branches)},
+                {"total_valuation": 'valuation_rate'*'total_qty'},
+
             )
             if branches
             else item
