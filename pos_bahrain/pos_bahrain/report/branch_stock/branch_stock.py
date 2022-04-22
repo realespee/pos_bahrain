@@ -31,6 +31,7 @@ def execute(filters=None):
 
 def _get_columns(filters):
     branches = pluck("name", frappe.get_all("Branch", filters={"disabled": 0}))
+
     join_columns = compose(list, concatv)
     return join_columns(
         [
@@ -54,7 +55,7 @@ def _get_columns(filters):
         [make_column(x, x, type="Float", width=90) for x in branches],
         [make_column("total_qty", "Total Qty", type="Float", width=90)],
         [make_column("valuation_rate", "Valuation Rate", type="Currency", width=90)],
-        [make_column("total_valuation", "Total Valuation", type="Currency", width=90)]
+        [make_column('total_qty * valuation_rate', "Total Valuation", type="Currency", width=90)]
     )
 
 
@@ -87,6 +88,7 @@ def _get_data(clauses, values, keys):
                 i.item_code AS item_code,
                 i.item_name AS item_name,
                 i.valuation_rate AS valuation_rate,
+                i.total_valuation*total_qty AS total_valuation,
                 b.warehouse,
                 ipsb.price_list_rate AS cost_price,
                 ipms.price_list_rate AS minimum_selling,
@@ -124,6 +126,8 @@ def _get_data(clauses, values, keys):
         values={"items": list(pluck("item_code", items))},
         as_dict=1,
     )
+
+
 
     template = reduce(lambda a, x: merge(a, {x: None}), keys, {})
     make_row = compose(
