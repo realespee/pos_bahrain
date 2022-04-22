@@ -140,10 +140,7 @@ def _get_data(clauses, values, keys):
                 w.branch AS branch
             FROM `tabBin` AS b
             LEFT JOIN `tabBranch` AS w ON w.warehouse = b.warehouse
-            WHERE b.item_code IN %(items)s
-        """,
-        values={"items": list(pluck("item_code", items))},
-        as_dict=1,
+        """
     )
 
     template = reduce(lambda a, x: merge(a, {x: None}), keys, {})
