@@ -90,7 +90,6 @@ def _get_data(clauses, values, keys):
                 b.projected_qty AS qty,
                 w.branch AS branch
             FROM `tabBin` AS b
-            LEFT JOIN `tabBranch` AS w ON w.warehouse = b.warehouse
         """
     )
 
