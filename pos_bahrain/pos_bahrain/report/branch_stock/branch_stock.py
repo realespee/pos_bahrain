@@ -109,7 +109,7 @@ def _get_data(clauses, values, keys):
             standard_buying_sq=price_sq("Standard Buying"),
             minimum_selling_sq=price_sq("Minimum Selling"),
             standard_selling_sq=price_sq("Standard Selling"),
-            total_qty={_set_qty(branches)}
+            total_qty={_set_qty(bins)}
 
         ),
         values=values,
