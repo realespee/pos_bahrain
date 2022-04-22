@@ -112,7 +112,7 @@ def _get_data(clauses, values, keys):
         as_dict=1,
     )
 
-    print('\n\n\\n', items, '\n\n\n')
+    print('\n\n\\n', items.valuation_rate[0], '\n\n\n')
 
     bins = frappe.db.sql(
         """
@@ -129,7 +129,7 @@ def _get_data(clauses, values, keys):
         as_dict=1,
     )
 
-    print('\n\n\\n', items, '\n\n\n')
+    print('\n\n\\n', bins, '\n\n\n')
 
     template = reduce(lambda a, x: merge(a, {x: None}), keys, {})
     make_row = compose(
@@ -141,6 +141,7 @@ def _get_data(clauses, values, keys):
     frappe.errprint(items)
     return with_report_generation_time([make_row(x) for x in items], keys)
 
+    print(_set_qty(bins))
 
 def _set_qty(bins):
     grouped = groupby("item_code", bins)
@@ -153,7 +154,6 @@ def _set_qty(bins):
                 item,
                 {x.get("branch"): x.get("qty") for x in branches},
                 {"total_qty": get_total(branches)},
-                {"total_valuation": lambda x,y : x*y for x in 'valuation_rate' for y in'total_qty'},
 
             )
             if branches
@@ -161,6 +161,8 @@ def _set_qty(bins):
         )
 
     return fn
+
+
 
 def make_column(key, label=None, type="Data", options=None, width=120, hidden=0):
     return {
