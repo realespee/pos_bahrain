@@ -116,7 +116,7 @@ def _get_data(clauses, values, keys):
                 b.item_code AS item_code,
                 b.projected_qty AS qty,
                 b.projected_qty AS qty,
-                w.branch AS branch,
+                w.branch AS branch
             FROM `tabBin` AS b
             LEFT JOIN `tabBranch` AS w ON w.warehouse = b.warehouse
             WHERE b.item_code IN %(items)s
